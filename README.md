@@ -6,11 +6,11 @@ The project demonstrates the following capabilities:
 - Using latest React version with fully typed React Components and Classes.
 - Advanced TypeScript usage for strict typings.
 - How a dependency could be kept detached and mocked in tests using a simple class and without using inversify-react.
-- An clean, clear, identifiable and scalable directory and files structure. Inspired by [LIFT](https://johnpapa.net/angular-app-structuring-guidelines/).
+- A clean, clear, identifiable and scalable directory and files structure. Inspired by [LIFT](https://johnpapa.net/angular-app-structuring-guidelines/).
 - Directory structure is kept so that at any point, any feature module could be moved as a separate external standalone package.
 - Advanced React Hooks usage for components and material-ui theming.
 - Demonstration of how redux-toolkit along with TypeScript could be utilized to yield less boilerplate and keeping feature specific states local to feature modules and components.
-- The project is build in a TDD style. The repository's commit trail could be examined to know the top-down approach for tests and a bottom-up approach for refactoring and scaling application.
+- The project is built in a TDD style. The repository's commit trail could be examined to know the top-down approach for tests and a bottom-up approach for refactoring and scaling application.
 - This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).   
 
 ## Available Scripts

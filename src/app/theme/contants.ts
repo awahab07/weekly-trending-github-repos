@@ -1,3 +1,3 @@
-export const primaryColor = '#233d7b';
-export const fontFamily = 'Lato, sans-serif';
+export const primaryColor = '#0366d6';
+export const fontFamily = 'sans-serif';
 export const maxContentViewportWidth = 1024;
