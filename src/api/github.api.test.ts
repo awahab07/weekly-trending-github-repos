@@ -3,9 +3,16 @@ import { IRepository } from '../models';
 
 import axios from 'axios';
 import moment from 'moment';
+import { IApiListResponse } from '../models/IApiListResponse';
 import { IRepositoryFilter } from '../shared';
 import { MOCK_REPOS } from '../shared/testing';
 import { getWeeklyRepos, persistence, starRepo, unStarRepo } from './github.api';
+
+const getListResponseForRepos = (repos: Partial<IRepository>[]): IApiListResponse<IRepository> => ({
+  incomplete_results: false,
+  items: repos as IRepository[],
+  total_count: 100,
+});
 
 describe('Github Api', () => {
   const freezeTimeStamp = +new Date();
@@ -31,13 +38,20 @@ describe('Github Api', () => {
       config.github.baseUrl + `/search/repositories?q=created:>${weekBack}&sort=stars&order=desc`;
     const getSpy = jest
       .spyOn(axios, 'get')
-      .mockImplementation(() => Promise.resolve({ data: MOCK_REPOS }));
+      .mockImplementation(() => Promise.resolve({ data: getListResponseForRepos(MOCK_REPOS) }));
     getWeeklyRepos().then((repos) => {
       expect(getSpy).toHaveBeenCalledWith(url);
       expect(repos).toEqual(MOCK_REPOS);
 
       done();
     });
+  });
+
+  test('should reject promise when response is undefined', () => {
+    const persistenceGetMock = jest.spyOn(persistence, 'get').mockReturnValue([3344, 4455]);
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: undefined }));
+    expect(getWeeklyRepos([])).rejects.toBeTruthy();
+    persistenceGetMock.mockRestore();
   });
 
   test('should be able to apply language filter', (done: jest.DoneCallback) => {
@@ -50,7 +64,7 @@ describe('Github Api', () => {
 
     const getSpy = jest
       .spyOn(axios, 'get')
-      .mockImplementation(() => Promise.resolve({ data: MOCK_REPOS }));
+      .mockImplementation(() => Promise.resolve({ data: getListResponseForRepos(MOCK_REPOS) }));
     getWeeklyRepos([languageFilter]).then((repos) => {
       expect(getSpy).toHaveBeenCalledWith(expect.stringContaining(languageQueryStringParam));
 
@@ -65,12 +79,12 @@ describe('Github Api', () => {
     ];
     const allRepos = [...MOCK_REPOS, ...starredRepos];
     const persistenceGetMock = jest.spyOn(persistence, 'get').mockReturnValue([3344, 4455]);
-    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: allRepos }));
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: getListResponseForRepos(allRepos) }));
 
     const starredFilter: IRepositoryFilter = { key: 'starred', operator: '=', value: 'true' };
 
     getWeeklyRepos([starredFilter]).then((repos) => {
-      expect(repos.some(repo => !repo.extras.starred)).toBeFalsy();
+      expect(repos.some((repo) => !repo.extras.starred)).toBeFalsy();
 
       persistenceGetMock.mockRestore();
       done();
@@ -84,7 +98,7 @@ describe('Github Api', () => {
     ];
     const allRepos = [...MOCK_REPOS, ...starredRepos];
     const persistenceGetMock = jest.spyOn(persistence, 'get').mockReturnValue([3344, 4455]);
-    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: allRepos }));
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: getListResponseForRepos(allRepos) }));
 
     getWeeklyRepos([]).then((repos) => {
       const repoWithSattedTrue: IRepository = {
@@ -110,7 +124,7 @@ describe('Github Api', () => {
     ];
     const allRepos = [...MOCK_REPOS, ...starredRepos];
     const persistenceGetMock = jest.spyOn(persistence, 'get').mockReturnValue([3344, 4455]);
-    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: allRepos }));
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: getListResponseForRepos(allRepos) }));
 
     const starredFilter: IRepositoryFilter = { key: 'starred', operator: '=', value: 'false' };
 

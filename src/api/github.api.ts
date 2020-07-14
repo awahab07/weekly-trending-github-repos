@@ -1,5 +1,6 @@
 import { config } from '../config';
 import { IRepository } from '../models';
+import { IApiListResponse } from '../models/IApiListResponse';
 import { IRepositoryFilter, Persistence } from '../shared';
 
 import axios, { AxiosResponse } from 'axios';
@@ -29,8 +30,8 @@ export const getWeeklyRepos = (filters?: IRepositoryFilter[]): Promise<IReposito
     config.github.baseUrl + `/search/repositories?q=${filtersQueryString}&sort=stars&order=desc`;
 
   return axios
-    .get<IRepository[]>(url)
-    .then((res: AxiosResponse<IRepository[]>): IRepository[] => res.data)
+    .get<IApiListResponse<IRepository>>(url)
+    .then((res): IRepository[] => res.data.items)
     .then((repos: IRepository[]) =>
       repos.map(starUnStarRepo(persistence.get(LOCAL_STORAGE_STARS_KEY) ?? []))
     )

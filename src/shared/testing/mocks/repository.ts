@@ -3,6 +3,7 @@ import { MOCK_OWNER } from './owner';
 
 export const MOCK_REPOS: Partial<IRepository>[] = [
   {
+    id: 1122,
     url: 'https://test-url.com',
     name: 'Test-Repo-Name',
     description: 'exampel description',
