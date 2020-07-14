@@ -1,5 +1,5 @@
 import { config } from '../config';
-import { IRepository } from '../models/IRepository';
+import { IRepository } from '../models';
 import { IRepositoryFilter, Persistence } from '../shared';
 
 import axios, { AxiosResponse } from 'axios';

@@ -1,26 +1,11 @@
 import { config } from '../config';
-import { IOwner } from '../models/IOwner';
-import { IRepository } from '../models/IRepository';
+import { IRepository } from '../models';
 
 import axios from 'axios';
 import moment from 'moment';
 import { IRepositoryFilter } from '../shared';
+import { MOCK_REPOS } from '../shared/testing';
 import { getWeeklyRepos, persistence, starRepo, unStarRepo } from './github.api';
-
-const mockOwner: Partial<IOwner> = {
-  id: 1234,
-  avatar_url: 'https://test-url.com/avatar',
-};
-
-const mockRepos: Partial<IRepository>[] = [
-  {
-    url: 'https://test-url.com',
-    name: 'Test-Repo-Name',
-    description: 'exampel description',
-    stargazers_count: 10,
-    owner: mockOwner as IOwner,
-  },
-];
 
 describe('Github Api', () => {
   const freezeTimeStamp = +new Date();
@@ -46,10 +31,10 @@ describe('Github Api', () => {
       config.github.baseUrl + `/search/repositories?q=created:>${weekBack}&sort=stars&order=desc`;
     const getSpy = jest
       .spyOn(axios, 'get')
-      .mockImplementation(() => Promise.resolve({ data: mockRepos }));
+      .mockImplementation(() => Promise.resolve({ data: MOCK_REPOS }));
     getWeeklyRepos().then((repos) => {
       expect(getSpy).toHaveBeenCalledWith(url);
-      expect(repos).toEqual(mockRepos);
+      expect(repos).toEqual(MOCK_REPOS);
 
       done();
     });
@@ -65,7 +50,7 @@ describe('Github Api', () => {
 
     const getSpy = jest
       .spyOn(axios, 'get')
-      .mockImplementation(() => Promise.resolve({ data: mockRepos }));
+      .mockImplementation(() => Promise.resolve({ data: MOCK_REPOS }));
     getWeeklyRepos([languageFilter]).then((repos) => {
       expect(getSpy).toHaveBeenCalledWith(expect.stringContaining(languageQueryStringParam));
 
@@ -75,10 +60,10 @@ describe('Github Api', () => {
 
   test('should only return starred repos when star filter is true', (done: jest.DoneCallback) => {
     const starredRepos = [
-      { ...mockRepos[0], id: 3344 },
-      { ...mockRepos[0], id: 4455 },
+      { ...MOCK_REPOS[0], id: 3344 },
+      { ...MOCK_REPOS[0], id: 4455 },
     ];
-    const allRepos = [...mockRepos, ...starredRepos];
+    const allRepos = [...MOCK_REPOS, ...starredRepos];
     const persistenceGetMock = jest.spyOn(persistence, 'get').mockReturnValue([3344, 4455]);
     jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: allRepos }));
 
@@ -94,17 +79,17 @@ describe('Github Api', () => {
 
   test('should only return non-starred repos when star filter is false', (done: jest.DoneCallback) => {
     const starredRepos = [
-      { ...mockRepos[0], id: 3344 },
-      { ...mockRepos[0], id: 4455 },
+      { ...MOCK_REPOS[0], id: 3344 },
+      { ...MOCK_REPOS[0], id: 4455 },
     ];
-    const allRepos = [...mockRepos, ...starredRepos];
+    const allRepos = [...MOCK_REPOS, ...starredRepos];
     const persistenceGetMock = jest.spyOn(persistence, 'get').mockReturnValue([3344, 4455]);
     jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: allRepos }));
 
     const starredFilter: IRepositoryFilter = { key: 'starred', operator: '=', value: 'false' };
 
     getWeeklyRepos([starredFilter]).then((repos) => {
-      expect(repos).toEqual(mockRepos);
+      expect(repos).toEqual(MOCK_REPOS);
 
       persistenceGetMock.mockRestore();
       done();
@@ -118,14 +103,14 @@ describe('Github Api', () => {
   });
 
   test('should be able to star a repo', (done: jest.DoneCallback) => {
-    starRepo(mockRepos[0] as IRepository).then((whetherStarred) => {
+    starRepo(MOCK_REPOS[0] as IRepository).then((whetherStarred) => {
       expect(whetherStarred).toBeTruthy();
       done();
     });
   });
 
   test('should be able to unStar a repo', (done: jest.DoneCallback) => {
-    unStarRepo(mockRepos[0] as IRepository).then((whetherUnStarred) => {
+    unStarRepo(MOCK_REPOS[0] as IRepository).then((whetherUnStarred) => {
       expect(whetherUnStarred).toBeTruthy();
       done();
     });
