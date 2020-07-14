@@ -8,5 +8,8 @@ export const MOCK_REPOS: Partial<IRepository>[] = [
     description: 'exampel description',
     stargazers_count: 10,
     owner: MOCK_OWNER as IOwner,
+    extras: {
+      starred: false
+    }
   },
 ];

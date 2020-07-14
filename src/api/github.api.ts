@@ -10,6 +10,11 @@ axios.defaults.headers['Accept'] = 'application/vnd.github.v3+json';
 export const LOCAL_STORAGE_STARS_KEY = 'GITHUB-STARRED-REPOS';
 export const persistence = new Persistence(window);
 
+const starUnStarRepo = (starredIds: number[]) => (repo: IRepository): IRepository => ({
+  ...repo,
+  extras: { starred: starredIds.includes(repo.id) },
+});
+
 export const getWeeklyRepos = (filters?: IRepositoryFilter[]): Promise<IRepository[]> => {
   const weekBack = moment().subtract(7, 'days').format('YYYY-MM-DD');
   const weekFilter: IRepositoryFilter = { key: 'created', operator: '>', value: weekBack };
@@ -26,13 +31,13 @@ export const getWeeklyRepos = (filters?: IRepositoryFilter[]): Promise<IReposito
   return axios
     .get<IRepository[]>(url)
     .then((res: AxiosResponse<IRepository[]>): IRepository[] => res.data)
+    .then((repos: IRepository[]) =>
+      repos.map(starUnStarRepo(persistence.get(LOCAL_STORAGE_STARS_KEY) ?? []))
+    )
     .then((repos: IRepository[]) => {
       if (starredFilter !== undefined) {
-        const starredRepoIds: number[] = persistence.get(LOCAL_STORAGE_STARS_KEY) ?? [];
         const starredFilterPredicate = (r: IRepository) =>
-          starredFilter.value === 'false'
-            ? !starredRepoIds.includes(r.id)
-            : starredRepoIds.includes(r.id);
+          starredFilter.value === 'false' ? !r.extras.starred : r.extras.starred;
 
         return repos.filter(starredFilterPredicate);
       }

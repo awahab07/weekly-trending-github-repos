@@ -1,5 +1,9 @@
 import { IOwner } from './IOwner';
 
+interface IRepositoryExtras {
+  starred: boolean;
+}
+
 export interface IRepository {
   id: number;
   node_id: string;
@@ -75,4 +79,5 @@ export interface IRepository {
   watchers: number;
   default_branch: string;
   score: number;
+  extras: IRepositoryExtras;
 }

@@ -70,7 +70,33 @@ describe('Github Api', () => {
     const starredFilter: IRepositoryFilter = { key: 'starred', operator: '=', value: 'true' };
 
     getWeeklyRepos([starredFilter]).then((repos) => {
-      expect(repos).toEqual(starredRepos);
+      expect(repos.some(repo => !repo.extras.starred)).toBeFalsy();
+
+      persistenceGetMock.mockRestore();
+      done();
+    });
+  });
+
+  test('should mark extras.starred to true when repo is starred', (done: jest.DoneCallback) => {
+    const starredRepos = [
+      { ...MOCK_REPOS[0], id: 3344 },
+      { ...MOCK_REPOS[0], id: 4455 },
+    ];
+    const allRepos = [...MOCK_REPOS, ...starredRepos];
+    const persistenceGetMock = jest.spyOn(persistence, 'get').mockReturnValue([3344, 4455]);
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({ data: allRepos }));
+
+    getWeeklyRepos([]).then((repos) => {
+      const repoWithSattedTrue: IRepository = {
+        ...MOCK_REPOS[0],
+        extras: { starred: true },
+      } as IRepository;
+      expect(repos).toEqual(
+        expect.arrayContaining([
+          { ...repoWithSattedTrue, id: 3344 },
+          { ...repoWithSattedTrue, id: 4455 },
+        ])
+      );
 
       persistenceGetMock.mockRestore();
       done();
