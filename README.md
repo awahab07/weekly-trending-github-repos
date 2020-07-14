@@ -1,4 +1,17 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About
+
+This project is a React application which consumes github REST search API (the application fetches and lists trending repos).
+
+The project demonstrates the following capabilities:
+- Using latest React version with fully typed React Components and Classes.
+- Advanced TypeScript usage for strict typings.
+- How a dependency could be kept detached and mocked in tests using a simple class and without using inversify-react.
+- An clean, clear, identifiable and scalable directory and files structure. Inspired by [LIFT](https://johnpapa.net/angular-app-structuring-guidelines/).
+- Directory structure is kept so that at any point, any feature module could be moved as a separate external standalone package.
+- Advanced React Hooks usage for components and material-ui theming.
+- Demonstration of how redux-toolkit along with TypeScript could be utilized to yield less boilerplate and keeping feature specific states local to feature modules and components.
+- The project is build in a TDD style. The repository's commit trail could be examined to know the top-down approach for tests and a bottom-up approach for refactoring and scaling application.
+- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).   
 
 ## Available Scripts
 
@@ -31,11 +44,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
