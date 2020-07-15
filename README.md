@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/awahab07/weekly-trending-github-repos.svg?branch=master)](https://travis-ci.com/awahab07/weekly-trending-github-repos)
+
 ## About
 
 This project is a React application which consumes github REST search API (the application fetches and lists trending repos).
