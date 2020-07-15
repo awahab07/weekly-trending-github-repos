@@ -68,12 +68,15 @@ describe('updateRepository', () => {
         dispatch: (action: Action) => dispatched.push(action),
       },
       updateRepository,
-      actions.updateRepositoryStarred({ repository: testRepo, star: true })
+      actions.updateRepositoryStarred({ repository: testRepo, star: true, filters: [] })
     );
 
     expect(starRepoSpy).toHaveBeenCalledTimes(1);
     expect(starRepoSpy).toHaveBeenCalledWith(testRepo);
-    expect(dispatched).toEqual([actions.updateRepositoryStarredSuccess({ repository: testRepo })]);
+    expect(dispatched).toEqual([
+      actions.updateRepositoryStarredSuccess({ repository: testRepo }),
+      actions.getRepositories({ filters: [] }),
+    ]);
     starRepoSpy.mockClear();
   });
 
@@ -89,12 +92,12 @@ describe('updateRepository', () => {
         dispatch: (action: Action) => dispatched.push(action),
       },
       updateRepository,
-      actions.updateRepositoryStarred({ repository: testRepo, star: false })
+      actions.updateRepositoryStarred({ repository: testRepo, star: false, filters: [] })
     );
 
     expect(unStarRepoSpy).toHaveBeenCalledTimes(1);
     expect(unStarRepoSpy).toHaveBeenCalledWith(testRepo);
-    expect(dispatched).toEqual([actions.updateRepositoryStarredSuccess({ repository: testRepo })]);
+    expect(dispatched).toEqual([actions.updateRepositoryStarredSuccess({ repository: testRepo }), actions.getRepositories({ filters: [] })]);
     unStarRepoSpy.mockClear();
   });
 
@@ -110,7 +113,7 @@ describe('updateRepository', () => {
         dispatch: (action: Action) => dispatched.push(action),
       },
       updateRepository,
-      actions.updateRepositoryStarred({ repository: testRepo, star: true })
+      actions.updateRepositoryStarred({ repository: testRepo, star: true, filters: [] })
     );
 
     expect(starRepoSpy).toHaveBeenCalledTimes(1);

@@ -16,7 +16,7 @@ Object.defineProperty(window, 'location', {
   }
 });
 
-describe('Vip renders correctly', () => {
+describe('Repository container renders correctly', () => {
   it('should render correctly', () => {
     const Component = (
       <MockStoreProvider

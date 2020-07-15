@@ -40,7 +40,14 @@ const slice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    updateRepositoryStarred: (state: IState, action: PayloadAction<{ repository: IRepository, star: boolean }>): void => {
+    updateRepositoryStarred: (
+      state: IState,
+      action: PayloadAction<{
+        repository: IRepository;
+        star: boolean;
+        filters: IRepositoryFilter[];
+      }>
+    ): void => {
       state.loading = true;
       state.error = null;
     },

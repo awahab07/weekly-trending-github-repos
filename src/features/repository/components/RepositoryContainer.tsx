@@ -1,34 +1,104 @@
-import React, { FunctionComponent, PropsWithChildren, ReactElement, useEffect } from 'react';
+import { Box } from '@material-ui/core';
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react';
 import { Helmet } from 'react-helmet';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useAppStyles } from '../../../app/theme';
 import { IRepository } from '../../../models';
+import { IRepositoryFilter } from '../../../shared';
+import BoxTypography from '../../../shared/BoxComponents/BoxTypography';
+import ErrorRenderer from '../../../shared/ErrorRenderer/ErrorRenderer';
+import Spinner from '../../../shared/Spinner/Spinner';
 import { RootState } from '../../../store';
 import { repositoryActions } from '../index';
+import RepositoryList from './RepositoryList';
 
 const RepositoryContainer: FunctionComponent = (props: PropsWithChildren<{}>): ReactElement => {
+  const appClasses = useAppStyles();
   const dispatch = useDispatch();
-  const { repositories } = useSelector((state: RootState) => state.repositorySlice, shallowEqual);
+  const { repositories, loading, error } = useSelector(
+    (state: RootState) => state.repositorySlice,
+    shallowEqual
+  );
+
+  const [filters, setFilters] = useState<IRepositoryFilter[]>([]);
 
   useEffect(() => {
-    dispatch(repositoryActions.getRepositories({ filters: [] }));
-  }, []);
+    dispatch(repositoryActions.getRepositories({ filters }));
+  }, [filters]);
+
+  // For demonstration, using hard coded values
+  const availableLanguages: string[] = [
+    'JavaScript',
+    'Python',
+    'TypeScript',
+    'Swift',
+    'Java',
+    'PHP',
+    'Go',
+    'Rust',
+  ];
 
   const seoTitle = 'Github | Trending Repositories';
 
+  const handleStarRepo = (repo: IRepository): void => {
+    dispatch(
+      repositoryActions.updateRepositoryStarred({
+        repository: repo,
+        star: !repo.extras.starred,
+        filters,
+      })
+    );
+  };
+
+  const handleFilterUpdate = (filter: IRepositoryFilter): void => {
+    setFilters((prevFilters) => {
+      const otherFilters = prevFilters.filter((f) => f.key !== filter.key);
+
+      if ((filter.value ?? null) !== null && filter.value !== '') {
+        return [filter, ...otherFilters];
+      }
+
+      return otherFilters;
+    });
+  };
+
   return (
     <>
-      <Helmet>{seoTitle}</Helmet>09
-      <div className="bg-gray-light border-bottom">
-        <div className="container-lg p-responsive text-center py-6">
-          <h1 className="h0-mktg">Trending</h1>
-          <p className="f4 text-gray col-md-6 mx-auto">
-            See which repositories are trending this week.
-          </p>
-        </div>
-      </div>
-      {repositories.map((r: IRepository) => (
-        <p key={r.id}>{r.name}</p>
-      ))}
+      <Helmet>{seoTitle}</Helmet>
+
+      {loading ? <Spinner /> : null}
+
+      <Box
+        display={'flex'}
+        p={2}
+        className={appClasses.sectionBg}
+        flexDirection={'column'}
+        alignItems={'center'}
+        width={1}
+        component={'section'}
+      >
+        <BoxTypography variant={'h1'}>Trending</BoxTypography>
+
+        <BoxTypography variant={'subtitle1'}>
+          See which repositories are trending this week.
+        </BoxTypography>
+      </Box>
+
+      {error ? <ErrorRenderer message={error} /> : null}
+
+      <RepositoryList
+        repositories={repositories}
+        availableLanguages={availableLanguages}
+        filters={filters}
+        onStarRepo={handleStarRepo}
+        onUpdateFilter={handleFilterUpdate}
+      />
     </>
   );
 };

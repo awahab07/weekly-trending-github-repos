@@ -1,5 +1,5 @@
 import { createMuiTheme, Theme } from '@material-ui/core';
-import { blueGrey, grey, indigo } from '@material-ui/core/colors';
+import { blueGrey, indigo } from '@material-ui/core/colors';
 import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { fontFamily, maxContentViewportWidth, primaryColor } from './contants';
@@ -11,7 +11,7 @@ export const appTheme = responsiveFontSizes(
         ...indigo,
         main: primaryColor,
       },
-      secondary: blueGrey
+      secondary: blueGrey,
     },
     typography: {
       fontFamily,
@@ -30,7 +30,19 @@ export const useAppStyles = makeStyles((theme: Theme) => ({
   },
   contentWrapper: {
     width: '100vw',
-    maxWidth: maxContentViewportWidth
+    maxWidth: maxContentViewportWidth,
+  },
+  sectionBg: {
+    backgroundColor: theme.palette.grey['200'],
+  },
+  headLink: {
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+    fontWeight: theme.typography.h3.fontWeight,
+    fontSize: theme.typography.h3.fontSize,
+  },
+  noBorder: {
+    border: 'none'
   },
   fadeBorder: {
     borderColor: fadeBorder,
@@ -39,15 +51,8 @@ export const useAppStyles = makeStyles((theme: Theme) => ({
     borderColor: headerBorder,
   },
   success: {
-    color: theme.palette.success.dark
+    color: theme.palette.success.dark,
   },
-  tag: {
-    color: grey['800']
-  },
-  alter: {
-    backgroundColor: grey['300'],
-    opacity: 0.3
-  }
 }));
 
 export const getAppSpacing = (spacing: number) => appTheme.spacing(spacing);

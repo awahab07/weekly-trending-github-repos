@@ -43,7 +43,11 @@ const computeOverrideBoxProps = (props: IBoxGridProps): IBoxGridProps => {
 
 const BoxGrid: FunctionComponent<IBoxGridProps> = (props: IBoxGridProps) => {
   return (
-    <Box {...omitCustomProps(props)} component={Grid} {...computeOverrideBoxProps(props)}>
+    <Box
+      {...omitCustomProps(props)}
+      component={props.clone ? undefined : Grid}
+      {...computeOverrideBoxProps(props)}
+    >
       {props.children}
     </Box>
   );

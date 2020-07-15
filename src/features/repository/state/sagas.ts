@@ -23,6 +23,7 @@ export function* updateRepository(action: Action): Generator {
       const methodToCall = action.payload.star ? githubApi.starRepo : githubApi.unStarRepo;
       yield call(methodToCall, repo);
       yield put(actions.updateRepositoryStarredSuccess({ repository: repo }));
+      yield put(actions.getRepositories({ filters: action.payload.filters }));
     } catch (e) {
       yield put(actions.updateRepositoryStarredFailure({ repository: repo, error: e.message }));
     }
