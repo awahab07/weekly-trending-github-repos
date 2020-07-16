@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/weekly-trending-github-repos/static/js/main.85e941be.chunk.js",
-    "main.js.map": "/weekly-trending-github-repos/static/js/main.85e941be.chunk.js.map",
-    "runtime-main.js": "/weekly-trending-github-repos/static/js/runtime-main.83694c46.js",
-    "runtime-main.js.map": "/weekly-trending-github-repos/static/js/runtime-main.83694c46.js.map",
-    "static/js/2.62329c61.chunk.js": "/weekly-trending-github-repos/static/js/2.62329c61.chunk.js",
-    "static/js/2.62329c61.chunk.js.map": "/weekly-trending-github-repos/static/js/2.62329c61.chunk.js.map",
-    "index.html": "/weekly-trending-github-repos/index.html",
-    "precache-manifest.bec35063ef6220ca4ac3e1083093ed79.js": "/weekly-trending-github-repos/precache-manifest.bec35063ef6220ca4ac3e1083093ed79.js",
-    "service-worker.js": "/weekly-trending-github-repos/service-worker.js",
-    "static/js/2.62329c61.chunk.js.LICENSE.txt": "/weekly-trending-github-repos/static/js/2.62329c61.chunk.js.LICENSE.txt"
+    "main.js": "/static/js/main.ab0e924d.chunk.js",
+    "main.js.map": "/static/js/main.ab0e924d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4ad5ec47.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4ad5ec47.js.map",
+    "static/js/2.62329c61.chunk.js": "/static/js/2.62329c61.chunk.js",
+    "static/js/2.62329c61.chunk.js.map": "/static/js/2.62329c61.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.465098ce790ec0db6b5d92eed0af9824.js": "/precache-manifest.465098ce790ec0db6b5d92eed0af9824.js",
+    "service-worker.js": "/service-worker.js",
+    "static/js/2.62329c61.chunk.js.LICENSE.txt": "/static/js/2.62329c61.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.83694c46.js",
+    "static/js/runtime-main.4ad5ec47.js",
     "static/js/2.62329c61.chunk.js",
-    "static/js/main.85e941be.chunk.js"
+    "static/js/main.ab0e924d.chunk.js"
   ]
 }
