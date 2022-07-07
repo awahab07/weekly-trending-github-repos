@@ -10,7 +10,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@reduxjs/toolkit": "^1.4.0",
     "axios": "^0.19.2",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
